@@ -1,10 +1,6 @@
 services:
   mysql:
     image: mysql:8.0.36
-    ports:
-      - "3306:3306"
-    env_file:
-      - .env
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -37,10 +33,19 @@ services:
     image: django_app
     build: .
     container_name: django_cont
-    env_file:
-      - .env
+    command: >
+         sh -c "python manage.py migrate &&
+         gunicorn notesapp.wsgi:application --bind 0.0.0.0:8000"
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
     networks:
       - django-app-network
+    ports:
+      - "8000:8000"
     depends_on:
         mysql:
           condition: service_healthy
