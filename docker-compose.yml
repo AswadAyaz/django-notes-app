@@ -4,6 +4,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_HOST: ${MYSQL_ROOT_HOST}
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
@@ -30,7 +31,7 @@ services:
     restart: always
 
   django_app:
-    image: django_app
+    image: aswadayaz/django_app:latest
     build: .
     container_name: django_cont
     command: >
