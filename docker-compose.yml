@@ -18,7 +18,7 @@ services:
       start_period: 60s
 
   nginx:
-    image: nginx-app
+    image: nginx_app
     build: ./nginx
     container_name: nginx_cont
     ports: 
